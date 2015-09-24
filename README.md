@@ -27,7 +27,7 @@ $ meteor add fabienb4:synced-scheduler
 SyncedScheduler.add({
   name: "schedule-name",
   schedule: 10,// every ten seconds
-  job: function() {
+  job() {
     console.log("schedule ran");
   }
 });
@@ -38,7 +38,7 @@ SyncedScheduler.add({
 SyncedScheduler.add({
   name: "schedule-name",
   schedule: 10,// in ten seconds
-  job: function() {
+  job() {
     console.log("single-time schedule ran");
     SyncedScheduler.remove("schedule-name");
   }
@@ -73,9 +73,7 @@ Friends = new Mongo.Collection("friends");
 
 // server-side only
 Friends.sendInvitation = function(fromId, newFriendName) {
-  var self = this;
-
-  var newFriend = Meteor.users.findOne({ username: newFriendName }, { fields: { _id: 1 } });
+  let newFriend = Meteor.users.findOne({ username: newFriendName }, { fields: { _id: 1 } });
 
   // ...checks...
 
@@ -84,7 +82,7 @@ Friends.sendInvitation = function(fromId, newFriendName) {
   SyncedScheduler.add({
     name: "friend-invite-" + newFriend._id,
     schedule: 60,// 60 seconds
-    job: function() {
+    job() {
       FriendEvent.emit("friend-invite-" + newFriend._id, null);
 
       SyncedScheduler.remove("friend-invite-" + newFriend._id);
@@ -98,7 +96,7 @@ Friends.sendInvitation = function(fromId, newFriendName) {
 
 // client-side only
 Template.friends.onRendered(function() {
-  FriendEvent.on("friend-invite-" + Meteor.userId(), function(fromId) {
+  FriendEvent.on("friend-invite-" + Meteor.userId(), fromId => {
     if (fromId === null) {
       delete Session.keys.showFriendInvite;
     } else {
@@ -116,5 +114,7 @@ MIT
 ### Contributing
 
 Anyone is welcome to contribute. Fork, make your changes (test them!), and then submit a pull request.
+
+Bitcoin: `34o6GtZPvVXparT46Zw2kfdxex2SWRpkGS`
 
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/fabienb4/)

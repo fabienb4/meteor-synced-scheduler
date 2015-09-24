@@ -19,8 +19,6 @@ var scheduleEntry = function(entry) {
  * @param {Object} entry The entry object.
  */
 SyncedScheduler.add = function(entry) {
-  var self = this;
-
   check(entry.name, String);
   check(entry.schedule, Number);
   check(entry.job, Function);
@@ -30,11 +28,11 @@ SyncedScheduler.add = function(entry) {
   }
 
   // check for double entries
-  if (! self._entries[entry.name]) {
-    self._entries[entry.name] = entry;
+  if (! this._entries[entry.name]) {
+    this._entries[entry.name] = entry;
 
     // if cron is already running, start directly.
-    if (self.running) {
+    if (this.running) {
       scheduleEntry(entry);
     }
   }
@@ -46,15 +44,14 @@ SyncedScheduler.add = function(entry) {
  * @param  {String} entryName The name of the entry to remove.
  */
 SyncedScheduler.remove = function(entryName) {
-  var self  = this;
-  var entry = self._entries[entryName];
+  let entry = this._entries[entryName];
 
   if (entry) {
     if (entry._timer) {
       Meteor.clearInterval(entry._timer);
     }
 
-    delete self._entries[entryName];
+    delete this._entries[entryName];
   }
 };
 
@@ -63,14 +60,12 @@ SyncedScheduler.remove = function(entryName) {
  * @locus Server
  */
 SyncedScheduler.start = function() {
-  var self = this;
-
-  Meteor.startup(function() {
-    _.each(self._entries, function(entry) {
+  Meteor.startup(() => {
+    _.each(this._entries, entry => {
       scheduleEntry(entry);
     });
 
-    self.running = true;
+    this.running = true;
   });
 };
 
@@ -79,11 +74,9 @@ SyncedScheduler.start = function() {
  * @locus Server
  */
 SyncedScheduler.stop = function() {
-  var self = this;
-
-  _.each(self._entries, function(entry, name) {
+  _.each(this._entries, (entry, name) => {
     SyncedScheduler.remove(name);
   });
 
-  self.running = false;
+  this.running = false;
 };

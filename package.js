@@ -11,9 +11,11 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.1');
+  api.versionsFrom('1.2.0.1');
 
-  api.addFiles('synced-scheduler-server.js');
+  api.use('ecmascript', 'server');
 
-  api.export('SyncedScheduler');
+  api.addFiles('synced-scheduler-server.js', 'server');
+
+  api.export('SyncedScheduler', 'server');
 });
