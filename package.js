@@ -1,6 +1,6 @@
 Package.describe({
   name: 'fabienb4:synced-scheduler',
-  version: '0.1.0',
+  version: '0.2.0',
   // Brief, one-line summary of the package.
   summary: 'A simple server-side synced scheduler for Meteor.',
   // URL to the Git repository containing the source code for this package.
