@@ -1,6 +1,6 @@
 # fabienb4:synced-scheduler
 
-> **This package is no longer maintained.**
+> **This package is no longer maintained. If you have a well maintained fork, please send me an email so I can add a link to it here.**
 
 A simple server-side synced scheduler for Meteor. Define functions to run every/in X seconds. Schedules are 'synchronized', meaning they won't run twice if your deployment consist of multiple servers.
 
